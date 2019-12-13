@@ -1,5 +1,3 @@
-
-//name, interval, range, onchange
 function Sensor(data) {
   this.value = 0;
   this.read = function () {

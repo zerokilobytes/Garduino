@@ -1,11 +1,3 @@
-//Johnny-Five uses process.stdin, which is not available for Electron's use. 
-//This causes Electron's render process to crash! 
-//We can reroute process.stdin to a compatible replacement stream though
-
-//process.stdin is Node's way of getting data that's passed into it from outside. 
-//stdin , short for “standard in”, is the path by which we can pass data into an application. 
-//This is usually text data that the user has typed, but it can also come from another application.
-
 var Readable = require("stream").Readable;
 var util = require("util");
 util.inherits(MyStream, Readable);
@@ -20,14 +12,16 @@ process.__defineGetter__("stdin", function () {
   return process.__stdin;
 });
 
-//
-
 var five = require("johnny-five");
 var board = new five.Board({
   repl: false
 });
 
 var valueDiv = document.querySelector("#moistureValue");
+
+var temperatureValue = 0;
+var moistureValue = 0;
+var lightValue = 0;
 
 board.on("ready", function () {
   var sensor = new five.Sensor({
@@ -37,13 +31,14 @@ board.on("ready", function () {
   });
 
   sensor.on("change", function () {
-    var moistureValue = AurdinoUtils.getFixedMoistureReading(this.value);
-    valueDiv.innerHTML = moistureValue;
+    moistureValue = AurdinoUtils.getFixedMoistureReading(this.value);
+
+    var time = AurdinoUtils.getTime();
+    document.querySelector("#moistureTime").innerHTML = `Last updated ${time}`;
 
     Charts.moisture.data.datasets[0].data = [moistureValue, 100 - moistureValue];
     Charts.moisture.config.options.elements.center.text = moistureValue + '%';
     Charts.moisture.update();
-    //myChartData.datasets[0].data = myChartData.datasets[0].data.concat(result);
   });
 
 });
@@ -54,6 +49,10 @@ EmulatorAdaptor.addSensor({
   interval: 5000,
   range: [42, 47],
   onchange: function (sender) {
+    var time = AurdinoUtils.getTime();
+    document.querySelector("#temperatureTime").innerHTML = `Last updated ${time}`;
+
+    temperatureValue = sender.value;
     var value = sender.value;
     Charts.temperature.data.datasets[0].data = [value, 100 - value];
     Charts.temperature.config.options.elements.center.text = value + '%';
@@ -66,6 +65,10 @@ EmulatorAdaptor.addSensor({
   interval: 3000,
   range: [53, 70],
   onchange: function (sender) {
+    var time = AurdinoUtils.getTime();
+    document.querySelector("#lightTime").innerHTML = `Last updated ${time}`;
+
+    lightValue = sender.value;
     var value = sender.value;
     Charts.light.data.datasets[0].data = [value, 100 - value];
     Charts.light.config.options.elements.center.text = value + '%';
@@ -73,3 +76,23 @@ EmulatorAdaptor.addSensor({
   }
 });
 
+
+setInterval(function () {
+  var time = AurdinoUtils.getTime();
+
+  Charts.temperatureLineChart.data.labels.push(time);
+  Charts.temperatureLineChart.data.datasets[0].data.push(temperatureValue * 10);
+  Charts.temperatureLineChart.update();
+
+  Charts.moistureLineChart.data.labels.push(time);
+  Charts.moistureLineChart.data.datasets[0].data.push(moistureValue);
+  Charts.moistureLineChart.update();
+
+  Charts.lightLineChart.data.labels.push(time);
+  Charts.lightLineChart.data.datasets[0].data.push(lightValue * 10);
+  Charts.lightLineChart.update();
+
+  document.querySelectorAll('.linetime').forEach(function (linetime) {
+    linetime.innerHTML = `Last updated ${time}`;
+  })
+}, 10000);

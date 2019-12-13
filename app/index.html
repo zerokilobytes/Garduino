@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Garduino</title>
+  <title>DRUID</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
@@ -14,8 +14,8 @@
 
 <body id="page-top">
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-    <a class="navbar-brand mr-1" href="index.html">Garduino System</a>
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0 burgerButton" id="sidebarToggle" href="#">
+    <img src="images/white-logo.png" height=40 alt="logo">
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0 burgerButton" id="sidebarToggle">
     </button>
     <!-- Navbar Search -->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -28,20 +28,25 @@
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <img class="menuIcon" src="images/dashboard.png">
-          <span>Dashboard</span>
+        <a class="nav-link" id="dashboardMenu">
+          <span id="dashboard-icon" class="menuIcon" alt="menu item"></span>
+          <span> Dashboard</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <img class="menuIcon" src="images/pie-chart.png">
+        <a class="nav-link" id="chartsMenu">
+          <span id="charts-icon" class="menuIcon" alt="menu item"></span>
           <span>Charts</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <img class="menuIcon" src="images/alarm.png">
-          <span>Notification</span></a>
+        <a class="nav-link" id="notificationMenu">
+          <span id="notification-icon" class="menuIcon" alt="menu item"></span>
+          <span>Notifications</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="eventsMenu">
+          <span id="events-icon" class="menuIcon" alt="menu item"></span>
+          <span>Schedules</span></a>
       </li>
     </ul>
 
@@ -49,68 +54,111 @@
       <div class="container-fluid">
 
         <!-- Breadcrumbs-->
-        <div class="breadcrumb">
-          <h3>Plant monitoring system - Current Readings</h3>
-          <p></p>
-        </div>
 
+        <section id="readings" class="pagesection">
+          <div class="breadcrumb">
+            <h3>Current Readings</h3>
+            <p></p>
+          </div>
 
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card mb-3">
-              <div class="card-header">
-                <i class="fas fa-chart-pie"></i>
-                Current temperature</div>
-              <div class="card-body">
-                <canvas id="temperatureChart" width="100%" height="100"></canvas>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas fa-chart-pie"></i>
+                  Current temperature</div>
+                <div class="card-body">
+                  <canvas id="temperatureChart" width="100" height="100"></canvas>
+                </div>
+                <div class="card-footer small text-muted"><span id="temperatureTime"></span></div>
               </div>
-              <div class="card-footer small text-muted">Updated yesterday 5 seconds ago</div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas fa-chart-pie"></i>
+                  Moisture Level</div>
+                <div class="card-body">
+                  <canvas id="moistureChart" width="100" height="100"></canvas>
+                </div>
+                <div class="card-footer small text-muted"><span id="moistureTime">Checking for updates...</span></div>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas fa-chart-pie"></i>
+                  Light Exporure</div>
+                <div class="card-body">
+                  <canvas id="lightChart" width="100" height="100"></canvas>
+                </div>
+                <div class="card-footer small text-muted"><span id="lightTime"></span></div>
+              </div>
             </div>
           </div>
+        </section>
 
-          <div class="col-lg-4">
-            <div class="card mb-3">
-              <div class="card-header">
-                <i class="fas fa-chart-pie"></i>
-                Moisture Level <span id="moistureValue"></span> </div>
-              <div class="card-body">
-                <canvas id="moistureChart" width="100%" height="100"></canvas>
-              </div>
-              <div class="card-footer small text-muted">Updated yesterday 5 seconds ago</div>
+        <section id="linecharts" class="pagesection">
+          <div class="breadcrumb">
+            <h3>Chart Readings</h3>
+            <p></p>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-chart-area"></i>
+              Temperature levels over the past hour</div>
+            <div class="card-body">
+              <canvas id="temperatureLineChart" width="100" height="30"></canvas>
             </div>
+            <div class="card-footer small text-muted linetime"></div>
           </div>
 
-          <div class="col-lg-4">
-            <div class="card mb-3">
-              <div class="card-header">
-                <i class="fas fa-chart-pie"></i>
-                Light Exporure</div>
-              <div class="card-body">
-                <canvas id="lightChart" width="100%" height="100"></canvas>
-              </div>
-              <div class="card-footer small text-muted">Updated yesterday 5 seconds ago</div>
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-chart-area"></i>
+              Moisture levels over the past hour</div>
+            <div class="card-body">
+              <canvas id="moistureLineChart" width="100" height="30"></canvas>
             </div>
+            <div class="card-footer small text-muted linetime"></div>
           </div>
-        </div>
 
-        <!-- Area Chart Example-->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Moisture levels over the past 24 hours</div>
-          <div class="card-body">
-            <canvas id="temperatureLineChart" width="100%" height="30"></canvas>
+
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-chart-area"></i>
+              Light levels over the past hour</div>
+            <div class="card-body">
+              <canvas id="lightLineChart" width="100" height="30"></canvas>
+            </div>
+            <div class="card-footer small text-muted linetime"></div>
           </div>
-          <div class="card-footer small text-muted">Updated 1 hour ago</div>
-        </div>
+        </section>
+
+        <section id="notifications" class="pagesection">
+          <div class="breadcrumb">
+            <h3>Notifications</h3>
+            <p></p>
+          </div>
+
+          <p class="lead">No notifications are available at this time</p>
+        </section>
+
+        <section id="events" class="pagesection">
+          <div class="breadcrumb">
+            <h3>Events</h3>
+            <p></p>
+          </div>
+
+          <p class="lead">No schedules are available at this time</p>
+        </section>
       </div>
 
 
-
-
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
+      <!--
       <footer class="sticky-footer">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
@@ -118,36 +166,10 @@
           </div>
         </div>
       </footer>
+      -->
 
     </div>
-    <!-- /.content-wrapper -->
 
-  </div>
-  <!-- /#wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
   </div>
 
   <script src="js/AurdinoUtils.js"></script>

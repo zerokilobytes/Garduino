@@ -7,27 +7,27 @@
   var temperatureLineChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ["Mar 1", "Mar 2"],
+      labels: [],
       datasets: [{
         label: "Sessions",
         lineTension: 0.3,
-        backgroundColor: "rgba(2,117,216,0.2)",
-        borderColor: "rgba(2,117,216,1)",
-        pointRadius: 5,
-        pointBackgroundColor: "rgba(2,117,216,1)",
+        backgroundColor: "rgba(255, 114, 111,0.2)",
+        borderColor: "rgba(255, 114, 111,1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(255, 114, 111,1)",
         pointBorderColor: "rgba(255,255,255,0.8)",
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(2,117,216,1)",
-        pointHitRadius: 50,
-        pointBorderWidth: 2,
-        data: [10000, 30162],
+        pointHoverBackgroundColor: "rgba(255, 114, 111,1)",
+        pointHitRadius: 30,
+        pointBorderWidth: 3,
+        data: [],
       }],
     },
     options: {
       scales: {
         xAxes: [{
           time: {
-            unit: 'date'
+            unit: 'time'
           },
           gridLines: {
             display: false
@@ -39,7 +39,7 @@
         yAxes: [{
           ticks: {
             min: 0,
-            max: 40000,
+            max: 1000,
             maxTicksLimit: 5
           },
           gridLines: {
@@ -52,6 +52,115 @@
       }
     }
   });
+
+
+  var ctx = document.getElementById("moistureLineChart");
+  var moistureLineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: "Sessions",
+        lineTension: 0.3,
+        backgroundColor: "rgba(153, 204, 255,0.2)",
+        borderColor: "rgba(153, 204, 255,1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(153, 204, 255,1)",
+        pointBorderColor: "rgba(255,255,255,0.8)",
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(153, 204, 255,1)",
+        pointHitRadius: 30,
+        pointBorderWidth: 3,
+        data: [],
+      }],
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          time: {
+            unit: 'time'
+          },
+          gridLines: {
+            display: false
+          },
+          ticks: {
+            maxTicksLimit: 7
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max: 100,
+            maxTicksLimit: 5
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, .125)",
+          }
+        }],
+      },
+      legend: {
+        display: false
+      }
+    }
+  });
+
+
+
+  var ctx = document.getElementById("lightLineChart");
+  var lightLineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: "Sessions",
+        lineTension: 0.3,
+        backgroundColor: "rgba(242, 160, 15,0.2)",
+        borderColor: "rgba(242, 160, 15,1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(242, 160, 15,1)",
+        pointBorderColor: "rgba(255,255,255,0.8)",
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(242, 160, 15,1)",
+        pointHitRadius: 30,
+        pointBorderWidth: 3,
+        data: [],
+      }],
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          time: {
+            unit: 'time'
+          },
+          gridLines: {
+            display: false
+          },
+          ticks: {
+            maxTicksLimit: 7
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max: 1000,
+            maxTicksLimit: 5
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, .125)",
+          }
+        }],
+      },
+      legend: {
+        display: false
+      }
+    }
+  });
+
+
+
+
+
+
 
   var ctx = document.getElementById("temperatureChart");
   var temperatureChart = new Chart(ctx, {
@@ -128,7 +237,7 @@
       labels: ['', ''],
       datasets: [{
         data: [0, 100],
-        backgroundColor: ['#F0E68C', '#DCDCDC'],
+        backgroundColor: ['#f2a00f', '#DCDCDC'],
       }],
     },
 
@@ -144,7 +253,7 @@
         center: {
           maxText: '100%',
           text: '0%',
-          fontColor: '#F0E68C',
+          fontColor: '#f2a00f',
           fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
           fontStyle: 'normal',
           minFontSize: 30,
@@ -157,5 +266,8 @@
   Charts.light = lightChart;
   Charts.moisture = moistureChart;
   Charts.temperature = temperatureChart;
-  Charts.temperatureLineChart;
+
+  Charts.temperatureLineChart = temperatureLineChart;
+  Charts.moistureLineChart = moistureLineChart;
+  Charts.lightLineChart = lightLineChart;
 })(); 

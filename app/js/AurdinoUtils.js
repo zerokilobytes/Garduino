@@ -14,5 +14,8 @@ var AurdinoUtils = {
   clampInteger: function (value, min, max) {
     value = parseInt(value);
     return Math.min(Math.max(value, min), max);
+  },
+  getTime: function () {
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 }
